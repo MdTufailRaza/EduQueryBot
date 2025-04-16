@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduQuery Bot</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f0f2f5; min-height: 100vh; display: flex; flex-direction: column; }
+    header { background: #2e86de; padding: 1em; color: white; text-align: center; }
+    .container { display: flex; justify-content: center; gap: 2em; padding: 2em; flex-wrap: wrap; }
+    .form-box { 
+      background: white; 
+      padding: 2em; 
+      border-radius: 10px; 
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+      width: 300px; 
+      transition: transform 0.3s;
+    }
+    .form-box:hover {
+      transform: translateY(-5px);
+    }
+    .form-box h2 { margin-bottom: 1em; color: #2e86de; }
+    .form-box input { 
+      width: 100%; 
+      padding: 0.8em; 
+      margin: 0.5em 0; 
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .form-box button { 
+      background: #2e86de; 
+      color: white; 
+      padding: 0.8em; 
+      width: 100%; 
+      border: none; 
+      border-radius: 5px; 
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 1em;
+      transition: background 0.3s;
+    }
+    .form-box button:hover { background: #1a6fc9; }
+    .logo { max-width: 150px; display: block; margin: 0 auto 1em; }
+    footer { 
+      background: #dcdde1; 
+      text-align: center; 
+      padding: 1.5em;
+      margin-top: auto;
+    }
+    .services { 
+      padding: 2em; 
+      max-width: 800px;
+      margin: 0 auto;
+      display: none; 
+    }
+    .services h2 { color: #2e86de; text-align: center; }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5em;
+      margin-top: 2em;
+    }
+    .service-card {
+      background: white;
+      padding: 1.5em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+    .service-link {
+      color: #2e86de;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .switch-form {
+      text-align: center;
+      margin-top: 1em;
+    }
+    .switch-form a {
+      color: #2e86de;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .bot-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .bot-button {
+      background: #ff6b6b;
+      color: white;
+      border-radius: 50px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      font-weight: bold;
+    }
+    .bot-button:hover {
+      transform: scale(1.05);
+      background: #ff5252;
+    }
+    .bot-icon {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.jpg" alt="EduQuery Bot Logo" class="logo" />
+    <h1>Welcome to EduQuery Bot</h1>
+    <p>Your AI-powered education assistant</p>
+  </header>
+
+  <main>
+    <!-- Login Form (shown first) -->
+    <div class="container" id="authContainer">
+      <div class="form-box" id="loginForm">
+        <h2>Login</h2>
+        <form id="login">
+          <input type="text" id="loginUsername" placeholder="Username" required />
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+        <div class="switch-form">
+          Don't have an account? <a href="#" id="showSignup">Sign up</a>
+        </div>
+      </div>
+
+      <!-- Signup Form (hidden initially) -->
+      <div class="form-box" id="signupForm" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signup">
+          <input type="text" id="signupUsername" placeholder="Username" required />
+          <input type="email" id="signupEmail" placeholder="Email" required />
+          <input type="password" id="signupPassword" placeholder="Password" required />
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+          <button type="submit">Register</button>
+        </form>
+        <div class="switch-form">
+          Already have an account? <a href="#" id="showLogin">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services Page (Hidden Initially) -->
+    <div class="services" id="servicesPage">
+      <h2>Our Services</h2>
+      <div class="service-grid">
+        <div class="service-card">
+          <h3>📚 Course Enrollment</h3>
+          <p>Register for courses with personalized recommendations.</p>
+          <a href="https://example.com/courses" class="service-link" target="_blank">Access Courses →</a>
+        </div>
+        <div class="service-card">
+          <h3>⏱️ Attendance Tracking</h3>
+          <p>View real-time attendance records.</p>
+          <a href="https://sis.kalasalingam.ac.in/semester/attendance" class="service-link" target="_blank">Check Attendance →</a>
+        </div>
+        <div class="service-card">
+          <h3>📝 Exam Support</h3>
+          <p>Access exam schedules and resources.</p>
+          <a href="https://drive.google.com/drive/folders/1zN1detmpjEFDKz3EveAWAV14y4uMGIp-" class="service-link" target="_blank">Exam Info →</a>
+        </div>
+        <div class="service-card">
+          <h3>📁 Document Submission</h3>
+          <p>Securely upload academic documents.</p>
+          <a href="https://example.com/documents" class="service-link" target="_blank">Submit Documents →</a>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2em;">
+        <button onclick="logout()" style="padding: 0.8em 2em; background: #ff6b6b; color: white; border: none; border-radius: 5px; cursor: pointer;">Logout</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p><strong>About EduQuery Bot:</strong> EduQuery Bot is an AI-powered chatbot designed to streamline administrative processes in educational institutions. It automates query resolution for credit claims, course enrollment, withdrawals, attendance tracking, exam inquiries, and document submissions. By reducing manual intervention, it enhances efficiency, minimizes delays, and ensures accurate communication, providing students with instant, reliable support for their academic concerns.</p>
+    <p><strong>Contact Us:</strong> support@eduquerybot.com | +91 9262974046 </p>
+  </footer>
+
+  <!-- Bot Button with "Ask Me" -->
+  <div class="bot-container">
+    <a href="https://mdtufailraza.github.io/EduQuery-Bot/" class="bot-button" title="Chat with Bot" target="_blank">
+      <span class="bot-icon">🤖</span>
+      <span>Ask Me</span>
+    </a>
+  </div>
+
+  <script>
+    // Store user credentials
+    let userCredentials = {};
+    
+    // Toggle between login and signup forms
+    document.getElementById('showSignup').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('signupForm').style.display = 'block';
+    });
+    
+    document.getElementById('showLogin').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    });
+
+    // Signup function
+    document.getElementById('signup').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('signupUsername').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPass = document.getElementById('confirmPassword').value;
+      
+      if (password !== confirmPass) {
+        alert('Passwords do not match!');
+        return;
+      }
+      
+      if (username && email && password) {
+        // Store user credentials
+        userCredentials = {
+          username: username,
+          password: password
+        };
+        
+        // Switch back to login form
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        
+        // Auto-fill login form
+        document.getElementById('loginUsername').value = username;
+        document.getElementById('loginPassword').value = password;
+        
+        alert('Account created! Please login with your credentials.');
+      } else {
+        alert('Please fill in all fields!');
+      }
+    });
+
+    // Login function
+    document.getElementById('login').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      if (username && password) {
+        // Check credentials (in real app, verify with server)
+        if (userCredentials.username === username && userCredentials.password === password) {
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('username', username);
+          document.getElementById('authContainer').style.display = 'none';
+          document.getElementById('servicesPage').style.display = 'block';
+        } else {
+          alert('Invalid credentials or account not found. Please sign up first.');
+        }
+      } else {
+        alert('Please enter both username and password');
+      }
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      document.getElementById('authContainer').style.display = 'flex';
+      document.getElementById('servicesPage').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('signupForm').style.display = 'none';
+    }
+
+    // Check if already logged in
+    if (localStorage.getItem('isLoggedIn')) {
+      document.getElementById('authContainer').style.display = 'none';
+      document.getElementById('servicesPage').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
